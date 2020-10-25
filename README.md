@@ -39,6 +39,29 @@ Using MySQL Docker to store data. Percisely, I use MySQL docker for convenience.
 2. Modify the mysql part of `docker-compose.yaml` to meet your demand.
 3. `docker-compose -f ./docker-compose.yaml up -d` and MySQL in running as docker container.
 4. If you would like to install MySQL, I use mysql == 5.7.31 here to avoid problems in newer versions.
+5. Create a database named `db_name`.
+  ```mysql
+  mysql> CREATE DATABASE db_name;
+  ```
+6. Create a table named `table_name` with these columns in the database.
+  ```mysql
+  mysql> CREATE TABLE table_name (
+            internetRXSpeed FLOAT, 
+            internetTXSpeed FLOAT, 
+            wiredRXSpeed FLOAT, 
+            wiredTXSpeed FLOAT, 
+            wireless2gRXSpeed FLOAT, 
+            wireless2gTXSpeed FLOAT, 
+            wireless5gRXSpeed FLOAT, 
+            wireless5gTXSpeed FLOAT, 
+            coretemp2g INT, 
+            coretemp5g INT, 
+            coretempCPU INT, 
+            cpu1Percentage FLOAT, 
+            cpu2Percentage FLOAT, 
+            ramUsage INT, 
+            timeStamp TIMESTAMP NOT NULL PRIMARY KEY);
+  ```
 
 ### The `VISUAL` part, how to show the data
 Using Grafana to show the data. Again, I use Grafana docker for convenience.
