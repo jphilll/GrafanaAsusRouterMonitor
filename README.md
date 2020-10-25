@@ -70,4 +70,4 @@ Using Grafana to show the data. Again, I use Grafana docker for convenience.
 2. Modify the grafana part of `docker-compose.yaml` to meet your demand. More environment settings can be found on Grafana website.
 3. `docker-compose -f ./docker-compose.yaml up -d` and Grafana in running as docker container.
 4. Add MySQL as data source.
-5. I also put my Grafana config here(asusMonitor.json), it's exactly like the image above.
+5. I also put my Grafana config here(`asusMonitor.json`), it's exactly like the image above.
