@@ -30,6 +30,7 @@ sqlTable = '' # MySQL Table you're gonna use
 ```
 4. Run the python script `python3 asusMonitor.py`
 5. (Optional) You can also run it as a system service, modify the `asusMonitor.service` and put it to `/usr/lib/systemd/system/` or `/usr/local/lib/systemd/system/`, then `systemctl daemon-reload`, `systemctl start asusMonitor.service`.
+6. Log is redirected to `/var/log/asusMonitor.log`.
 
 ### The `DATABASE` part, how to store the data
 Using MySQL Docker to store data. Percisely, I use MySQL docker for convenience.
