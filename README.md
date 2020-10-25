@@ -33,7 +33,7 @@ sqlTable = '' # MySQL Table you're gonna use
 6. Log is redirected to `/var/log/asusMonitor.log`.
 
 ### The `DATABASE` part, how to store the data
-Using MySQL Docker to store data. Percisely, I use MySQL docker for convenience.
+Using MySQL to store data. Percisely, I use MySQL docker for convenience.
 
 1. Install Docker.
 2. Modify the mysql part of `docker-compose.yaml` to meet your demand.
