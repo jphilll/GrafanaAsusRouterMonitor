@@ -1,0 +1,4 @@
+requests
+regex
+apscheduler
+mysql-connector-python-rf

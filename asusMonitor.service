@@ -1,0 +1,9 @@
+[Unit]
+Description=Asus Router Monitoring Service
+
+[Service]
+ExecStart=/bin/bash -c "/root/asusMonitor.py"
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

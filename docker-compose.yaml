@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    user: "0"
+    restart: always
+    network_mode: host
+    volumes:
+      - /root/grafana-data:/var/lib/grafana
+    environment:
+      - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1s
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+  mysql:
+    image: mysql:5.7.31
+    container_name: mysql
+    network_mode: host
+    volumes:
+      - /root/mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    restart: always
