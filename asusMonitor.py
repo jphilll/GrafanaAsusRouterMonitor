@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import requests
 import regex as re
@@ -10,6 +10,7 @@ import mysql.connector
 import logging
 import base64
 import urllib
+
 
 # Input basic information below..
 ## Your router's address (format: http://ip_address or https://ip_address)
@@ -30,11 +31,13 @@ sqlTable = '' # MySQL Table you're gonna use
 
 
 
+
 # Script starts here
 authURL = '{}/login.cgi'.format(asusAddr)
 speedURL = '{}/update.cgi'.format(asusAddr)
 tempURL = '{}/ajax_coretmp.asp'.format(asusAddr)
 statusURL = '{}/cpu_ram_status.xml'.format(asusAddr)
+bandwidthURL = '{}/Main_TrafficMonitor_monthly.asp'.format(asusAddr)
 
 asusIP = re.search(r'((?<=https://)|(?<=http://))\d+\.\d+\.\d+\.\d+', asusAddr)[0]
 asusAuth = base64.b64encode('{}:{}'.format(asusUser, asusPasswd).encode())
@@ -50,7 +53,6 @@ authHeaders = {
   'Content-Type': 'application/x-www-form-urlencoded',
   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
   'Accept-Encoding': 'gzip, deflate, br',
-  'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7',
   'Cache-Control': 'max-age=0',
   'Connection': 'keep-alive',
   'Content-Length': '154',
@@ -64,6 +66,10 @@ dataHeaders = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.3',
   'Content-Type': 'text/plain',
   'Referer': '{}/device-map/router_status.asp'.format(asusAddr)
+}
+
+bandwidthHeaders = {
+    'Cookie': ''
 }
 
 mydb = mysql.connector.connect(
@@ -92,7 +98,8 @@ def getData(token):
     requests.packages.urllib3.disable_warnings()
     
     # cookie
-    dataHeaders['Cookie'] = 'asus_token=' + token + 'clickedItem_tab=0'
+    dataHeaders['Cookie'] = 'asus_token={}'.format(token)
+    bandwidthHeaders['Cookie'] = 'asus_token={}'.format(token)
     
     # get speed and cpu ram status
     speedResponse1 = sessions.post(speedURL, headers=dataHeaders, data=dataPayload, verify=False)
@@ -106,6 +113,9 @@ def getData(token):
     # get coretemp
     tempResponse = sessions.get(tempURL, headers=dataHeaders, verify=False)
     
+    # get bandwidth
+    bandwidthResponse = requests.get(bandwidthURL, headers=bandwidthHeaders, verify=False)
+
     # speed result
     speedResult1 = speedResponse1.text
     speedResult2 = speedResponse2.text
@@ -116,6 +126,9 @@ def getData(token):
     # cpu ram status result
     statusResult1 = ET.fromstring(statusResponse1.text)
     statusResult2 = ET.fromstring(statusResponse2.text)
+    
+    # bandwidth result
+    bandwidthResult = bandwidthResponse.text
     
     # speed data cleaning
     wiredRX1 = int(re.search(r'(?<=WIRED\':{rx:).*(?=\,tx)', speedResult1)[0], 0)
@@ -176,6 +189,12 @@ def getData(token):
     
     # ramTotal = int(int(statusResult1[1][0].text)/1024)
     ramUsage = int(int(statusResult1[1][2].text)/1024)
+    
+    # bandwidth data cleaning
+    historyList = re.findall(r'(?<=monthly_history = \[\n).*(?=\]\;)', bandwidthResult)[0]
+    hexList = re.findall(r'0x\w+|\d+', historyList)
+    bandwidthRX = round(int(hexList[-2], 0)/1024/1024, 2)
+    bandwidthTX = round(int(hexList[-1], 0)/1024/1024, 2)
 
     # SQL Insert
     sqlCommand = '''INSERT INTO {}(internetRXSpeed, 
@@ -191,8 +210,10 @@ def getData(token):
                     coretempCPU, 
                     cpu1Percentage, 
                     cpu2Percentage, 
-                    ramUsage) 
-                    VALUE ({},{},{},{},{},{},{},{},{},{},{},{},{},{})'''\
+                    ramUsage, 
+                    bandwidthRX, 
+                    bandwidthTX) 
+                    VALUE ({},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{})'''\
                         .format(sqlTable, \
                                 internetRXSpeed, \
                                 internetTXSpeed, \
@@ -207,7 +228,9 @@ def getData(token):
                                 coretempCPU, \
                                 cpu1Percentage, \
                                 cpu2Percentage, \
-                                ramUsage)
+                                ramUsage, \
+                                bandwidthRX, \
+                                bandwidthTX)
     mycursor.execute(sqlCommand)
     mydb.commit()
     
@@ -232,7 +255,7 @@ def getData(token):
     # print('[RAM Usage] {} MB'.format(str(ramUsage)))
     # print('\n')
     logging.debug('Get Data Done')
-    return internetRXSpeed, internetTXSpeed, wiredRXSpeed, wiredTXSpeed, wireless2gRXSpeed, wireless2gTXSpeed, wireless5gRXSpeed, wireless5gTXSpeed, coretemp2g, coretemp5g, coretempCPU, cpu1Percentage, cpu2Percentage, ramUsage
+    return internetRXSpeed, internetTXSpeed, wiredRXSpeed, wiredTXSpeed, wireless2gRXSpeed, wireless2gTXSpeed, wireless5gRXSpeed, wireless5gTXSpeed, coretemp2g, coretemp5g, coretempCPU, cpu1Percentage, cpu2Percentage, ramUsage, bandwidthRX, bandwidthTX
 
 
 def listener(event):
@@ -242,6 +265,7 @@ def listener(event):
         getAuth()
         scheduler.add_job(getAuth, 'interval', hours=6)
         scheduler.add_job(getData, 'interval', seconds=2, max_instances=5, args=[token])
+        logging.warning('Monitor Restarted.')
         
         
 if __name__ == '__main__':

@@ -13,7 +13,7 @@
     ]
   },
   "description": "Router Status",
-  "editable": true,
+  "editable": false,
   "gnetId": null,
   "graphTooltip": 0,
   "id": 3,
@@ -30,7 +30,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -38,27 +38,19 @@
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -132,7 +124,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -140,27 +132,19 @@
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -234,7 +218,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -242,27 +226,19 @@
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -336,7 +312,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -344,27 +320,19 @@
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -438,7 +406,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -446,27 +414,19 @@
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -530,7 +490,8 @@
       "type": "gauge"
     },
     {
-      "datasource": "asusData",
+      "datasource": null,
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -543,32 +504,108 @@
             "mode": "absolute",
             "steps": [
               {
+                "color": "semi-dark-orange",
+                "value": null
+              },
+              {
+                "color": "dark-red",
+                "value": 1000
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 21,
+        "y": 0
+      },
+      "id": 19,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.2.2",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timeStamp AS \"time\",\n  bandwidthRX\nFROM allStatus\nWHERE\n  $__timeFilter(timeStamp)\nORDER BY timeStamp",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "bandwidthRX"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "allStatus",
+          "timeColumn": "timeStamp",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bandwidth In",
+      "type": "stat"
+    },
+    {
+      "datasource": "asusData",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
                 "color": "green",
                 "value": null
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -642,7 +679,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -650,27 +687,19 @@
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -744,7 +773,7 @@
           "decimals": 2,
           "mappings": [],
           "thresholds": {
-            "mode": "absolute",
+            "mode": "percentage",
             "steps": [
               {
                 "color": "green",
@@ -752,27 +781,19 @@
               },
               {
                 "color": "#6ED0E0",
-                "value": 2500
+                "value": 25
               },
               {
                 "color": "#EAB839",
-                "value": 5000
+                "value": 50
               },
               {
                 "color": "#EF843C",
-                "value": 7500
+                "value": 75
               },
               {
                 "color": "#E24D42",
-                "value": 10000
-              },
-              {
-                "color": "#1F78C1",
-                "value": 12500
-              },
-              {
-                "color": "#BA43A9",
-                "value": 15000
+                "value": 100
               }
             ]
           },
@@ -834,6 +855,91 @@
       "timeShift": null,
       "title": "WiFi 2.4G In",
       "type": "gauge"
+    },
+    {
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "dark-red",
+                "value": 200
+              }
+            ]
+          },
+          "unit": "decgbytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 3,
+        "x": 21,
+        "y": 8
+      },
+      "id": 20,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "last"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "7.2.2",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timeStamp AS \"time\",\n  bandwidthTX\nFROM allStatus\nWHERE\n  $__timeFilter(timeStamp)\nORDER BY timeStamp",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "bandwidthTX"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "allStatus",
+          "timeColumn": "timeStamp",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bandwidth Out",
+      "type": "stat"
     },
     {
       "datasource": null,
@@ -1107,6 +1213,40 @@
       "type": "bargauge"
     },
     {
+      "alert": {
+        "alertRuleTags": {},
+        "conditions": [
+          {
+            "evaluator": {
+              "params": [],
+              "type": "no_value"
+            },
+            "operator": {
+              "type": "and"
+            },
+            "query": {
+              "params": [
+                "A",
+                "1m",
+                "now"
+              ]
+            },
+            "reducer": {
+              "params": [],
+              "type": "last"
+            },
+            "type": "query"
+          }
+        ],
+        "executionErrorState": "alerting",
+        "for": "5m",
+        "frequency": "1m",
+        "handler": 1,
+        "message": "No data for the last 5 minutes, service maybe down.",
+        "name": "Service Down Alert",
+        "noDataState": "alerting",
+        "notifications": []
+      },
       "aliasColors": {},
       "bars": true,
       "dashLength": 10,
@@ -1226,9 +1366,9 @@
         {
           "format": "KBs",
           "label": null,
-          "logBase": 2,
+          "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -1338,7 +1478,7 @@
       "type": "stat"
     }
   ],
-  "refresh": "3s",
+  "refresh": "1s",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
@@ -1346,7 +1486,7 @@
     "list": []
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {
@@ -1368,5 +1508,5 @@
   "timezone": "",
   "title": "Asus RT-AC1900P",
   "uid": "hhx2-TtMz",
-  "version": 13
+  "version": 24
 }
