@@ -1,4 +1,4 @@
-# AsusRouterMonitor
+# GrafanaAsusRouterMonitor
 Monitor your Asus router with Grafana.
 
 ![](https://github.com/jphilll/AsusRouterMonitor/raw/main/asusMonitor.png)
