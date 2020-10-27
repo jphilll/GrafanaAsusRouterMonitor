@@ -60,6 +60,8 @@ Using MySQL to store data. Percisely, I use MySQL docker for convenience.
             cpu1Percentage FLOAT, 
             cpu2Percentage FLOAT, 
             ramUsage INT, 
+            bandwidthRX FLOAT, 
+            bandwidthTX FLOAT, 
             timeStamp TIMESTAMP NOT NULL PRIMARY KEY);
   ```
 
