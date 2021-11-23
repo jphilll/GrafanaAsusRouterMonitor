@@ -9,7 +9,7 @@ This is what it looks like.
 ### The `DATA` part, how to extract data from Asus router
 Using `asusMonitor.py` to get all the data. It provides all the data shown in the picture above.
 
-1. Python version I am using == Python 3.9.0, all versions of python 3 is probably fine. And I am using it on Debian 9.
+1. Python version I am using == Python 3.9.0. And I have only tested it on Debian 9.
 2. Install all the required python packages `pip3 install -r ./requirements.txt`
 3. Modify the basic information part of `asusMonitor.py`.
 
