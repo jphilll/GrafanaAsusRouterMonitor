@@ -1,17 +1,22 @@
 # GrafanaAsusRouterMonitor
 Monitor your Asus router with Grafana.
 
-![](https://github.com/jphilll/AsusRouterMonitor/raw/main/asusMonitor.png)
+![GrafanaAsusRouterMonitor](https://github.com/jphilll/AsusRouterMonitor/raw/main/asusMonitor.png)
 This is what it looks like.
+
+## Compatibility
+
+1. Python >= 3.9
+2. Asus Merlin Firmware
 
 ## HowTo
 
 ### The `DATA` part, how to extract data from Asus router
 Using `asusMonitor.py` to get all the data. It provides all the data shown in the picture above.
 
-1. Python version I am using == Python 3.9.0. And I have only tested it on Debian 9.
+1. I am using == Python 3.9.0 on Debian 9
 2. Install all the required python packages `pip3 install -r ./requirements.txt`
-3. Modify the basic information part of `asusMonitor.py`.
+3. Modify the basic information part of `asusMonitor.py`
 
 ```python
 # Input basic information below..
